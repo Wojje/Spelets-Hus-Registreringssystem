@@ -1,0 +1,10 @@
+$def with (members)
+
+<form method="post">
+<ul>
+$for member in members:
+     <input type="checkbox" name="name" value="$member.member_id">
+     <li id="t$member.pnumber">$member.name</li>
+</ul>
+<input type="submit" />    </form>
+
