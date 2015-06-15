@@ -4,7 +4,7 @@ from web import form
 db = web.database(dbn='mysql', user='testuser', pw='test123', db='TESTDB')
 render = web.template.render('templates/')
 
-urls = ('/', 'index')
+urls = ('/', 'index', '/delete', 'delete')
 app = web.application(urls, globals())
 
 class index: 
@@ -23,6 +23,10 @@ class index:
         for checked in post_data.name:
             n = db.insert('registrations', member_id=checked)
         raise web.seeother('/')
+
+#class delete:
+#    def POST(self):
+        
 
 if __name__=="__main__":
     web.internalerror = web.debugerror

@@ -1,13 +1,15 @@
 $def with (checkedIn, members)
 $for person in checkedIn:
-     $person.name<br>
+    <form action="delete" method="post">
+        <input type="hidden" name="name" value="$person.member_id">
+        $person.name
+        <input type="submit" value="x">
+    </form>
 
-<form method="post">
-<ul>
+
 $for member in members:
-     <input type="checkbox" name="name" value="$member.member_id">
-     $member.name<br>
-     
-</ul>
-<input type="submit" />    </form>
+    <form method="post">
+        <input type="hidden" name="name" value="$member.member_id">
+        <input type="submit" value="$member.name">
+    </form>
 
