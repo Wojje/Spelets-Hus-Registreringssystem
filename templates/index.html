@@ -1,10 +1,13 @@
-$def with (members)
+$def with (checkedIn, members)
+$for person in checkedIn:
+     $person.name<br>
 
 <form method="post">
 <ul>
 $for member in members:
      <input type="checkbox" name="name" value="$member.member_id">
-     <li id="t$member.pnumber">$member.name</li>
+     $member.name<br>
+     
 </ul>
 <input type="submit" />    </form>
 
