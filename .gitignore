@@ -58,3 +58,6 @@ target/
 
 # gedit temp files
 *~
+
+# sql database
+database.sqlite

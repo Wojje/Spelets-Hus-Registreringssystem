@@ -1,3 +1,13 @@
+<form action="create_visitor" method="post">
+    <input type="text" name="name" value="">
+    <input type="submit" value="Create visitor">
+</form>
+
+Visits:
+
+{% for visit in visits %}
+    {{ visit }}
+{% endfor %}
 
 {% for visitor in checked_in %}
     <form action="delete" method="post">
@@ -10,7 +20,7 @@
 
 {% for visitor in not_checked_in %}
     <form action="checked_in" method="post">
-        <input type="hidden" name="name" value="{{visitor.id}}">
+        <input type="hidden" name="visitor_id" value="{{visitor.id}}">
         <input type="submit" value="{{visitor.name}}">
     </form>
 {% endfor %}
