@@ -1,34 +1,25 @@
+from flask import Flask, render_template, url_for, request, redirect
 import web
-from web import form
+
+app = Flask(__name__)
 
 db = web.database(dbn='mysql', user='testuser', pw='test123', db='TESTDB')
-render = web.template.render('templates/')
 
-urls = ('/', 'index', '/delete', 'delete')
-app = web.application(urls, globals())
-
-class index: 
-    def GET(self): 
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        checked = request.form['name']
+        n = db.insert('registrations', member_id=checked)
+        return redirect(url_for('index'))
+    else:
         checkedIn = db.query("SELECT * FROM member WHERE member.member_id IN (\
         SELECT member_id FROM registrations WHERE DATE(reg_time)=DATE(NOW()) AND \
         member.member_id = registrations.member_id)")
-        
         members = db.query("SELECT * FROM member WHERE member.member_id NOT IN (\
         SELECT member_id FROM registrations WHERE DATE(reg_time)=DATE(NOW()) AND \
         member.member_id = registrations.member_id)")
-        return render.index(checkedIn, members)
+        return render_template('index.html', checkedIn=checkedIn, members=members)
 
-    def POST(self): 
-        post_data=web.input(name=[])
-        for checked in post_data.name:
-            n = db.insert('registrations', member_id=checked)
-        raise web.seeother('/')
-
-#class delete:
-#    def POST(self):
-        
-
-if __name__=="__main__":
-    web.internalerror = web.debugerror
+if __name__ == '__main__':
     app.run()
 

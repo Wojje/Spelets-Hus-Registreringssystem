@@ -1,15 +1,16 @@
-$def with (checkedIn, members)
-$for person in checkedIn:
+<!doctype html>
+
+{% for person in checkedIn: %}
     <form action="delete" method="post">
-        <input type="hidden" name="name" value="$person.member_id">
-        $person.name
+        <input type="hidden" name="name" value="{{ person.member_id }}">
+        {{ person.name }}
         <input type="submit" value="x">
     </form>
+{% endfor %}
 
-
-$for member in members:
+{% for member in members: %}
     <form method="post">
-        <input type="hidden" name="name" value="$member.member_id">
-        <input type="submit" value="$member.name">
+        <input type="hidden" name="name" value="{{ member.member_id }}">
+        <input type="submit" value="{{ member.name }}">
     </form>
-
+{% endfor %}
