@@ -7,6 +7,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.sqlite'
 db = SQLAlchemy(app)
 
 
+# Models:
 class Visitor(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=True)
@@ -16,6 +17,9 @@ class Visitor(db.Model):
 
     def __repr__(self):
         return 'Visitor (%s)' % self.name
+        
+    def here_today(self):
+        return self.visits.filter(Visit.date == date.today()).count() > 0
 
      
 class Visit(db.Model):
@@ -33,12 +37,14 @@ class Visit(db.Model):
         return 'Visit (%s, %s)' % (self.visitor.name, self.date)
 
 
+# Views:
 @app.route("/", methods=["GET"])
 def index():
-    not_checked_in = Visitor.query.all() # todo
-    checked_in = not_checked_in # todo
+    all_visitors = Visitor.query.all()
+    here = list(filter(lambda v: v.here_today(), all_visitors))
+    not_here = list(filter(lambda v: not v.here_today(), all_visitors))
     return render_template("index.html", 
-                           checked_in=checked_in, not_checked_in=not_checked_in,
+                           here=here, not_here=not_here,
                            visits=Visit.query.all())
 
 @app.route("/checked_in", methods=["POST"])
