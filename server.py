@@ -1,6 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, request
 from flask.ext.sqlalchemy import SQLAlchemy
 from datetime import date
+from collections import OrderedDict
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.sqlite'
@@ -42,9 +43,16 @@ class Visit(db.Model):
 def index():
     all_visitors = Visitor.query.all()
     here = list(filter(lambda v: v.here_today(), all_visitors))
-    not_here = list(filter(lambda v: not v.here_today(), all_visitors))
+    not_here = filter(lambda v: not v.here_today(), all_visitors)
+    not_here = list(sorted(not_here, key=lambda v:v.name))
+    not_here_by_letter = OrderedDict()
+    for v in not_here:
+        letter = v.name[0].upper()
+        if letter not in not_here_by_letter:
+            not_here_by_letter[letter] = []
+        not_here_by_letter[letter].append(v)
     return render_template("index.html", 
-                           here=here, not_here=not_here,
+                           here=here, not_here_by_letter=not_here_by_letter,
                            visits=Visit.query.all())
 
 @app.route("/checked_in", methods=["POST"])

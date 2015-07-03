@@ -1,21 +1,82 @@
-<form action="create_visitor" method="post">
-    <input type="text" name="name" value="">
-    <input type="submit" value="Create visitor">
-</form>
-
-{% for visitor in here %}
-    <form action="delete" method="post">
-        <input type="hidden" name="name" value="{{visitor.id}}">
-        {{visitor.name}}
-        <input type="submit" value="x">
-    </form>
-{% endfor %}
-
-
-{% for visitor in not_here %}
-    <form action="checked_in" method="post">
-        <input type="hidden" name="visitor_id" value="{{visitor.id}}">
-        <input type="submit" value="{{visitor.name}}">
-    </form>
-{% endfor %}
-
+<!doctype html>
+<html>
+    <head>
+        <style>
+            body {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+            }
+            
+            #visitors-here {
+                display: flex;
+            }
+            
+            #visitors-here .visitor {
+                margin: 0.5em;
+            }
+            
+            #visitors-not-here {
+                background-color: #666;
+                display: flex;
+                flex-direction: column;
+                /*flex-wrap: wrap;
+                justify-content: flex-start;
+                align-items: center;*/
+            }
+            
+            #visitors-not-here .letter-group {
+                display: flex;
+            }
+            
+            #visitors-not-here .letter {
+                background-color: #000;
+                color: white;
+                padding: 3px 3px 3px 7px;
+            }
+            
+            #visitors-not-here .visitor input[type=submit]{
+                border: 1px solid #333;
+                border-radius: 4px;
+                padding: 3px;
+            }
+        </style>
+    </head>
+    <body>
+        <form action="create_visitor" method="post">
+            <input type="text" name="name" value="">
+            <input type="submit" value="Create visitor">
+        </form>
+        
+        <div id="visitors-here">
+        {% for visitor in here %}
+            <form action="delete" method="post" class="visitor">
+                <input type="hidden" name="name" value="{{visitor.id}}">
+                {{visitor.name}}
+                <input type="submit" value="x">
+            </form>
+        {% endfor %}
+        </div>
+            
+        <div id="visitors-not-here">
+        {% for letter, visitors in not_here_by_letter.items() %}
+            <div class="letter-group">
+                <div class="letter">
+                    {{letter}}
+                </div>
+                {% for visitor in visitors %}                     
+                    <form action="checked_in" method="post" class="visitor">
+                        <input type="hidden" name="visitor_id" value="{{visitor.id}}">
+                        <input type="submit" value="{{visitor.name}}">
+                    </form>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        </div>
+    </body>
+</html>
