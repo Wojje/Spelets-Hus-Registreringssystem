@@ -48,8 +48,7 @@
         </style>
     </head>
     <body>
-        <form action="create_visitor" method="post">
-            <input type="text" name="name" value="">
+        <form action="create_visitor" method="get">
             <input type="submit" value="Create visitor">
         </form>
         
@@ -57,7 +56,7 @@
         {% for visitor in here %}
             <form action="delete" method="post" class="visitor">
                 <input type="hidden" name="name" value="{{visitor.id}}">
-                {{visitor.name}}
+                {{visitor.name()}}
                 <input type="submit" value="x">
             </form>
         {% endfor %}
@@ -72,7 +71,7 @@
                 {% for visitor in visitors %}                     
                     <form action="checked_in" method="post" class="visitor">
                         <input type="hidden" name="visitor_id" value="{{visitor.id}}">
-                        <input type="submit" value="{{visitor.name}}">
+                        <input type="submit" value="{{visitor.name()}}">
                     </form>
                 {% endfor %}
             </div>

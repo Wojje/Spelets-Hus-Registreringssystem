@@ -1,0 +1,27 @@
+<html lang="sv">
+    <form action="create_visitor" method="post">
+        <dl>
+            <dt>Förnamn:</dt>
+            <dd><input type="text" name="first_name" value=""></dd>
+            <dt>Efternamn:</dt>
+            <dd><input type="text" name="last_name" value=""></dd>
+            <dt>Födelsedatum:</dt>
+            <dd><input type="date" name="date_of_birth" value=""></dd>
+            <dt>Kön:</dt>
+            <dd>
+                <select name="gender">
+                    <option>Man</option>
+                    <option>Kvinna</option>
+                    <option>Annat</option>
+                </select>
+            </dd>
+            <dt>Gatuaddress:</dt>
+            <dd><input type="text" name="street_address" value=""></dd>
+            <dt>Postnummer:</dt>
+            <dd><input type="text" name="zip_code" value=""></dd>
+            <dt>Ort:</dt>
+            <dd><input type="text" name="city" value=""></dd>
+        </dl>
+        <input type="submit" value="Skicka">
+    </form>
+<html>
