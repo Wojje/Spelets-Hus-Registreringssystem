@@ -60,4 +60,5 @@ target/
 *~
 
 # sql database
-database.sqlite
+# database.sqlite
+
